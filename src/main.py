@@ -2,14 +2,13 @@ import asyncio
 import logging
 
 from aiogram import Bot, Dispatcher, F
-from aiogram.filters import ChatMemberUpdatedFilter, Command
+from aiogram.filters import Command
 
 import config
 from handlers import (
     add_chat,
     cmd_start,
     handle_message,
-    on_bot_added,
     support,
     user_chats,
 )
@@ -36,9 +35,6 @@ async def main():
     dp.callback_query.register(add_chat, F.data == 'add_chat')
     dp.message.register(user_chats, F.text == 'Мои чаты')
     dp.message.register(handle_message)
-    dp.chat_member.register(
-        on_bot_added, ChatMemberUpdatedFilter(member_status_changed=True)
-    )
 
     try:
         await dp.start_polling(bot)
